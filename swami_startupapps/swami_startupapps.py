@@ -74,7 +74,7 @@ class SwamiModule(Box):
         
         startupApplications = []
         
-        with open(StartupApplicationsFile) as startupFile:
+        with open(StartupApplicationsFile, "a+") as startupFile:
             for line in startupFile:
                 startupApplications.append(line.rstrip())
         
@@ -154,7 +154,7 @@ class SwamiModule(Box):
         
         self.commandsList = commandsList = List(self, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
         
-        with open(StartupCommandsFile) as scf:
+        with open(StartupCommandsFile, "a+") as scf:
             for line in scf:
                 if line.rstrip()[-3:] == "| \\":
                     commandsList.item_append(line.rstrip()[:-3])
