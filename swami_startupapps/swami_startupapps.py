@@ -113,8 +113,8 @@ class SwamiModule(Box):
                     else:
                         applicationsToAdd.append([name, iconObj, fileName, icon])
             else:
-				# Broken link or file problem, inform user
-				print "Swami IOError: [Errno 2] No such file or directory: {0}".format(d)
+                # Broken link or file problem, inform user
+                print "Swami IOError: [Errno 2] No such file or directory: {0}".format(d)
         
         startupToAdd.sort()
         applicationsToAdd.sort()
