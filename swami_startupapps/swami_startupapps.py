@@ -91,26 +91,30 @@ class SwamiModule(Box):
         applicationsToAdd = []
 
         for d in desktopFiles:
-            with open(d) as desktopFile:
-                fileName = d.split("/")[-1]
-                icon = None
-                for line in desktopFile:
-                    if line[:5] == "Name=":
-                        name = line[5:][:-1]
-                    
-                    if line[:5] == "Icon=":
-                        icon = line[5:].strip()
-                
-                try:
-                    iconObj = Icon(self, standard=icon, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
-                except:
-                    iconObj = Icon(self, standard="preferences-system", size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+            if os.access(d, os.R_OK):
+                with open(d) as desktopFile:
+                    fileName = d.split("/")[-1]
                     icon = None
-                
-                if fileName in startupApplications:
-                    startupToAdd.append([name, iconObj, fileName, icon])
-                else:
-                    applicationsToAdd.append([name, iconObj, fileName, icon])
+                    for line in desktopFile:
+                        if line[:5] == "Name=":
+                            name = line[5:][:-1]
+                        
+                        if line[:5] == "Icon=":
+                            icon = line[5:].strip()
+                    
+                    try:
+                        iconObj = Icon(self, standard=icon, size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+                    except:
+                        iconObj = Icon(self, standard="preferences-system", size_hint_weight=EXPAND_BOTH, size_hint_align=FILL_BOTH)
+                        icon = None
+                    
+                    if fileName in startupApplications:
+                        startupToAdd.append([name, iconObj, fileName, icon])
+                    else:
+                        applicationsToAdd.append([name, iconObj, fileName, icon])
+            else:
+				# Broken link or file problem, inform user
+				print "Swami IOError: [Errno 2] No such file or directory: {0}".format(d)
         
         startupToAdd.sort()
         applicationsToAdd.sort()
